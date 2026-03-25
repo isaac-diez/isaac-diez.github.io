@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Isaac Díez · Fullstack Developer</title>
+  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Portfolio" />
+  <link rel="manifest" href="site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
@@ -122,9 +128,9 @@
     .ticker { background: var(--accent); padding: 0.75rem 0; overflow: hidden; white-space: nowrap; }
     .ticker-inner { display: inline-flex; animation: ticker 26s linear infinite; }
     .ticker-item {
-      display: inline-flex; align-items: center; gap: 3.5rem;
+      display: inline-flex; align-items: center; gap: 2rem;
       font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500;
-      color: #0a0a0f; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 2rem;
+      color: #0a0a0f; text-transform: uppercase; letter-spacing: 0.08em; padding: 0 1rem;
     }
     .ticker-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(0,0,0,0.3); }
 
@@ -320,6 +326,10 @@
       .hero-cta { width: 100%; flex-direction: column; align-items: stretch; }
       .hero-cta .btn { justify-content: center; }
     }
+
+    @media (max-width: 480px) {
+      .hero-title .fit-text { display: block; font-size: 11vw; }
+    }
   </style>
 </head>
 <body>
@@ -353,7 +363,7 @@
   <h1 class="hero-title">
     Isaac Díez<br />
     <em>Fullstack</em><br />
-    Developer
+    <span class="fit-text">Developer</span>
   </h1>
   <div class="hero-bottom">
     <div>
@@ -372,7 +382,7 @@
     </div>
     <div class="hero-cta">
       <a href="#projects" class="btn btn-primary">Ver proyectos ↓</a>
-      <a href="cv.pdf" download class="btn btn-ghost">↓ CV</a>
+      <a href="CV Isaac Díez-Java Developer.pdf" download class="btn btn-ghost">↓ CV</a>
     </div>
   </div>
 </section>
@@ -469,7 +479,7 @@
   <div class="section-label">02 — Proyectos</div>
   <div class="projects-header">
     <h2 class="section-big-title reveal">Lo que<br />he construido</h2>
-    <a href="https://github.com/tu-usuario" target="_blank" class="btn btn-ghost reveal">Ver GitHub →</a>
+    <a href="https://github.com/isaac-diez" target="_blank" class="btn btn-ghost reveal">Ver GitHub →</a>
   </div>
   <div class="project-list">
 
@@ -670,9 +680,9 @@
         ↓ Descargar CV
       </a>
       <div class="contact-links reveal">
-        <a href="mailto:tuemail@ejemplo.com" class="contact-link">
+        <a href="mailto:portfolio.author031@passmail.net" class="contact-link">
           <div class="contact-link-icon">✉</div>
-          <div class="contact-link-label">Email<span class="contact-link-sub">Cuéntame cosas</span></div>
+          <div class="contact-link-label">Email<span class="contact-link-sub">portfolio.author031@passmail.net</span></div>
           <span class="contact-link-arrow">→</span>
         </a>
         <a href="https://linkedin.com/in/tu-perfil" target="_blank" class="contact-link">
