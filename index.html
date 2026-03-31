@@ -799,12 +799,104 @@
   reveals.forEach(function(el) { observer.observe(el); });
 
   // ── Web3Forms AJAX ──
+// ── Validación del formulario ──
+  var nameInput    = document.getElementById('name');
+  var emailInput   = document.getElementById('email');
+  var messageInput = document.getElementById('message');
+
+  function showFieldError(input, msg) {
+    clearFieldError(input);
+    input.style.borderColor = 'rgba(255,123,123,0.6)';
+    var err = document.createElement('span');
+    err.className = 'field-error';
+    err.style.cssText = 'font-family:var(--font-mono);font-size:0.62rem;color:#ff7b7b;margin-top:0.35rem;display:block;';
+    err.textContent = msg;
+    input.parentNode.appendChild(err);
+  }
+
+  function clearFieldError(input) {
+    input.style.borderColor = '';
+    var prev = input.parentNode.querySelector('.field-error');
+    if (prev) prev.remove();
+  }
+
+  function showFieldOk(input) {
+    clearFieldError(input);
+    input.style.borderColor = 'rgba(110,255,200,0.5)';
+  }
+
+  function validateName(val) {
+    if (!val.trim()) return 'El nombre es obligatorio.';
+    if (!/^[a-zA-ZÀ-ÿ\s'\-]+$/.test(val.trim())) return 'Solo se permiten letras.';
+    return null;
+  }
+
+  function validateEmail(val) {
+    if (!val.trim()) return 'El email es obligatorio.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim())) return 'Introduce un email válido.';
+    return null;
+  }
+
+  function validateMessage(val) {
+    if (!val.trim()) return 'El mensaje es obligatorio.';
+    if (val.trim().length < 50) return 'El mensaje debe tener al menos 50 caracteres (llevas ' + val.trim().length + ').';
+    return null;
+  }
+
+  // Validación en tiempo real al salir de cada campo
+  nameInput.addEventListener('blur', function() {
+    var err = validateName(this.value);
+    err ? showFieldError(this, err) : showFieldOk(this);
+  });
+  nameInput.addEventListener('input', function() {
+    if (this.parentNode.querySelector('.field-error')) {
+      var err = validateName(this.value);
+      err ? showFieldError(this, err) : showFieldOk(this);
+    }
+  });
+
+  emailInput.addEventListener('blur', function() {
+    var err = validateEmail(this.value);
+    err ? showFieldError(this, err) : showFieldOk(this);
+  });
+  emailInput.addEventListener('input', function() {
+    if (this.parentNode.querySelector('.field-error')) {
+      var err = validateEmail(this.value);
+      err ? showFieldError(this, err) : showFieldOk(this);
+    }
+  });
+
+  messageInput.addEventListener('blur', function() {
+    var err = validateMessage(this.value);
+    err ? showFieldError(this, err) : showFieldOk(this);
+  });
+  messageInput.addEventListener('input', function() {
+    if (this.parentNode.querySelector('.field-error')) {
+      var err = validateMessage(this.value);
+      err ? showFieldError(this, err) : showFieldOk(this);
+    }
+  });
+
+  // ── Web3Forms AJAX ──
   var contactForm = document.getElementById('contact-form');
   var submitBtn   = document.getElementById('submit-btn');
   var formResult  = document.getElementById('form-result');
 
   contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
+
+    // Validar todos los campos antes de enviar
+    var errName    = validateName(nameInput.value);
+    var errEmail   = validateEmail(emailInput.value);
+    var errMessage = validateMessage(messageInput.value);
+
+    errName    ? showFieldError(nameInput, errName)       : showFieldOk(nameInput);
+    errEmail   ? showFieldError(emailInput, errEmail)     : showFieldOk(emailInput);
+    errMessage ? showFieldError(messageInput, errMessage) : showFieldOk(messageInput);
+
+    if (errName || errEmail || errMessage) return;
+
+    // A partir de aquí todo está validado — continúa el envío normal
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
     formResult.className = 'loading';
@@ -830,6 +922,9 @@
         formResult.className = 'success';
         formResult.textContent = '✓ Mensaje enviado. Te respondo en breve.';
         contactForm.reset();
+        clearFieldError(nameInput);    nameInput.style.borderColor = '';
+        clearFieldError(emailInput);   emailInput.style.borderColor = '';
+        clearFieldError(messageInput); messageInput.style.borderColor = '';
       } else {
         formResult.className = 'error';
         formResult.textContent = '✗ ' + (res.data.message || 'Algo ha fallado. Inténtalo de nuevo.');
